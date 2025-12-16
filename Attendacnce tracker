@@ -1,0 +1,60 @@
+import java.util.Scanner;
+
+public class AttendanceTracker {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("--- Classroom Attendance System ---");
+
+        System.out.print("Enter number of students: ");
+        int numStudents = scanner.nextInt();
+
+        System.out.print("Enter number of working days to track: ");
+        int numDays = scanner.nextInt();
+        
+        String[] names = new String[numStudents]; 
+        int[][] attendance = new int[numStudents][numDays]; 
+
+        System.out.println("\nEnter Student Names:");
+        for (int i = 0; i < numStudents; i++) {
+            System.out.print("Student " + (i + 1) + " Name: ");
+            names[i] = scanner.next();
+        }
+
+        System.out.println("\n--- Mark Attendance (1 for Present, 0 for Absent) ---");
+        for (int day = 0; day < numDays; day++) {
+            System.out.println("\nDay " + (day + 1) + ":");
+            for (int student = 0; student < numStudents; student++) {
+                System.out.print("Is " + names[student] + " present? (1/0): ");
+                attendance[student][day] = scanner.nextInt();
+            }
+        }
+
+        System.out.println("\n\n--- Final Attendance Report ---");
+        System.out.print("Student\t\t");
+        for (int d = 1; d <= numDays; d++) {
+            System.out.print("D" + d + "\t");
+        }
+        System.out.println("Total\t%\tStatus");
+        System.out.println("-------------------------------------------------------------");
+
+        for (int i = 0; i < numStudents; i++) {
+            int totalPresent = 0;
+            
+            System.out.print(names[i] + "\t\t");
+
+            for (int j = 0; j < numDays; j++) {
+                System.out.print(attendance[i][j] + "\t");
+                totalPresent += attendance[i][j]; 
+            }
+
+            double percentage = ((double) totalPresent / numDays) * 100;
+            String status = (percentage < 75) ? "DEFAULTER" : "Eligible";
+
+            System.out.printf("%d\t%.1f%%\t%s\n", totalPresent, percentage, status);
+        }
+        
+        scanner.close();
+    }
+}
